@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    image: contact-book-app
+    container_name: laravel-app
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/var/www
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8
+    container_name: mysql-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: contact_db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
